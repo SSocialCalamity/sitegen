@@ -9,6 +9,8 @@ class HTMLNode():
         raise NotImplementedError
 
     def props_to_html(self):
+        if(self.props == None):
+            return("")
         propstr = ""
         for prop in self.props:
             propstr += " " + str(prop) + '="' + str(self.props[prop]) + '"'
