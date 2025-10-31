@@ -520,6 +520,30 @@ the **same** even with inline stuff
             html,
             '<div><p><img src="https://localhost/182739182.png" alt="imagelink"></img></p></div>',
         )
+    def test_extract_markdown(self):
+        markdown = "# a headline"
+        title = extract_title(markdown)
+        self.assertEqual(title,"a headline")
+    def test_extract_markdown2(self):
+        markdown = "# a headline with trailing spaces         "
+        title = extract_title(markdown)
+        self.assertEqual(title,"a headline with trailing spaces")
+    def test_extract_markdown3(self):
+        markdown = "# a headline with trailing spaces\nmultiple\nlines and trailing spaces         "
+        title = extract_title(markdown)
+        self.assertEqual(title,"a headline with trailing spaces\nmultiple\nlines and trailing spaces")
+    def test_extract_markdown4(self):
+        with self.assertRaises(Exception):
+            markdown = "no headline"
+            title = extract_title(markdown)
+    def test_extract_markdown5(self):
+        with self.assertRaises(Exception):
+            markdown = "## only h2 headline"
+            title = extract_title(markdown)
+    def test_extract_markdown6(self):
+        markdown = "## a headline\n\n# real headline below"
+        title = extract_title(markdown)
+        self.assertEqual(title,"real headline below")
 
 if __name__ == "__main__":
     unittest.main()

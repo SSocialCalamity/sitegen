@@ -248,3 +248,16 @@ def markdown_to_html_node(markdown):
         children.append(block_html_node)
     parent_node = ParentNode('div', children)
     return(parent_node)
+
+def extract_title(markdown):
+    title = None
+    markdown_blocks = markdown_to_blocks(markdown)
+    for block in markdown_blocks:
+        markdown_type = block_to_block_type(block)
+        if(markdown_type == BlockType.HEADING and re.match(r"^#\s", block)):
+            res = re.search(r"#\s(.*)", block, re.DOTALL | re.MULTILINE)
+            title = res.group(1)
+            title.strip()
+    if(not title):
+        raise Exception("No Title Found")
+    return(title)
